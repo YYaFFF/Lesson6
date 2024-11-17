@@ -18,7 +18,7 @@ def has_upper_letters(password):
 
 
 def has_lower_letters(password):
-    return any(letter.islower() for letter in password or "Пароль должен содержать букву")
+    return any(letter.islower() for letter in password)
 
 
 def has_symbols(password):
