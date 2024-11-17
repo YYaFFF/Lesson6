@@ -1,5 +1,6 @@
+
 password = input("Введите пароль: ")
-SCORE = 0
+score = 0
 
 
 def very_long(password):
@@ -19,7 +20,12 @@ def has_upper_letters(password):
 
 
 def has_lower_letters(password):
-    return any(letter.islower() for letter in password)
+    return any(letter.islower() for letter in password or "Пароль должен содержать букву")
+
+
+def has_symbols(password):
+    symbols = "!@#$%^&*()-_=+[]{}|;:'\",.<>?/"
+    return any(symbol.find(symbols) for symbol in password)
 
 
 verification = [
@@ -27,11 +33,16 @@ verification = [
     has_digit,
     has_letter,
     has_upper_letters,
-    has_lower_letters
+    has_lower_letters,
+    has_symbols
 ]
 
 for verification in verification:
-    result = verification(password)
-    if result:
-        SCORE += 2
-print(f"Рейтинг пароля: {SCORE}")
+    if verification(password):
+        score += 2
+print(f"Рейтинг пароля: {score}")
+
+
+
+
+
