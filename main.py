@@ -1,4 +1,3 @@
-
 password = input("Введите пароль: ")
 score = 0
 
