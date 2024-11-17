@@ -44,10 +44,10 @@ def calculate_password_strength(password):
 
 def on_ask_change(edit, new_edit_text):
     score = calculate_password_strength(new_edit_text)
-    reply.set_text(" Рейтинг пароля: %d" % score)
+    reply.set_text("Рейтинг пароля: %d" % score)
 
 
-ask = urwid.Edit('Ведите пароль :', mask='*')
+ask = urwid.Edit('Введите пароль :', mask='*')
 reply = urwid.Text("")
 menu = urwid.Pile([ask, reply])
 menu = urwid.Filler(menu, valign='top')
