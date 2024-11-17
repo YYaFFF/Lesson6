@@ -1,5 +1,4 @@
-password = input("Введите пароль: ")
-score = 0
+import urwid
 
 
 def very_long(password):
@@ -27,21 +26,30 @@ def has_symbols(password):
     return any(symbol.find(symbols) for symbol in password)
 
 
-verification = [
-    very_long,
-    has_digit,
-    has_letter,
-    has_upper_letters,
-    has_lower_letters,
-    has_symbols
-]
-
-for verification in verification:
-    if verification(password):
-        score += 2
-print(f"Рейтинг пароля: {score}")
-
-
-
+def calculate_password_strength(password):
+    score = 0
+    verification = [
+        very_long,
+        has_digit,
+        has_letter,
+        has_upper_letters,
+        has_lower_letters,
+        has_symbols
+    ]
+    for verification in verification:
+        if verification(password):
+            score += 2
+    return score
 
 
+def on_ask_change(edit, new_edit_text):
+    score = calculate_password_strength(new_edit_text)
+    reply.set_text(" Рейтинг пароля: %d" % score)
+
+
+ask = urwid.Edit('Ведите пароль :', mask='*')
+reply = urwid.Text("")
+menu = urwid.Pile([ask, reply])
+menu = urwid.Filler(menu, valign='top')
+urwid.connect_signal(ask, 'change', on_ask_change)
+urwid.MainLoop(menu).run()
