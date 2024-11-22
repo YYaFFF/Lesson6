@@ -22,13 +22,12 @@ def has_lower_letters(password):
 
 
 def has_symbols(password):
-    symbols = "!@#$%^&*()-_=+[]{}|;:'\",.<>?/"
-    return any(symbol.find(symbols) for symbol in password)
+    return any(not letter.isalpha() and not letter.isdigit() for letter in password)
 
 
 def calculate_password_strength(password):
     score = 0
-    verification = [
+    verifications = [
         very_long,
         has_digit,
         has_letter,
@@ -36,7 +35,7 @@ def calculate_password_strength(password):
         has_lower_letters,
         has_symbols
     ]
-    for verification in verification:
+    for verification in verifications:
         if verification(password):
             score += 2
     return score
@@ -47,9 +46,15 @@ def on_ask_change(edit, new_edit_text):
     reply.set_text("Рейтинг пароля: %d" % score)
 
 
-ask = urwid.Edit('Введите пароль :', mask='*')
-reply = urwid.Text("")
-menu = urwid.Pile([ask, reply])
-menu = urwid.Filler(menu, valign='top')
-urwid.connect_signal(ask, 'change', on_ask_change)
-urwid.MainLoop(menu).run()
+def main():
+    global reply
+    ask = urwid.Edit('Введите пароль:', mask='*')
+    reply = urwid.Text("")
+    menu = urwid.Pile([ask, reply])
+    menu = urwid.Filler(menu, valign='top')
+    urwid.connect_signal(ask, 'change', on_ask_change)
+    urwid.MainLoop(menu).run()
+
+
+if __name__ == '__main__':
+    main()
